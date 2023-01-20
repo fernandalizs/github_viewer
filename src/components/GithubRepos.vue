@@ -11,7 +11,8 @@
 </template>
 
 <script>
-  let _debounceUser = null
+  import {debouncerDecorator} from '@/helpers/debouncer.js'
+
   export default {
     data: () => ({
       user: null,
@@ -20,31 +21,20 @@
       userloading: false,
     }),
     methods: {
-      procuraUsuariosGithubDebounced(){
-        if (_debounceUser) {
-          clearTimeout(_debounceUser)
-        }
-        _debounceUser = setTimeout(() => {
-          this.procuraUsuariosGithub()
-          _debounceUser = null
-        }, 500)
-      },
-      procuraUsuariosGithub() {
+      procuraUsuariosGithub: debouncerDecorator(function () {
         console.log('faz de conta que eu perguntei pro github:' + this.usersearch)
+        this.userloading = true
         setTimeout(() => {
-          setTimeout(() => {
-            this.userlist = [
-              {login: 'joao'},
-              {login: 'jose'}
-            ]
-            this.userloading = false
-          }, 1000)
-        })
-      }
+          this.userlist = [
+            {login: 'joao'},
+            {login: 'jose'}
+          ]
+          this.userloading = false
+        }, 1000)
+      }, 500)
     },
     watch: {
       usersearch() {
-        this.userloading = true
         this.procuraUsuariosGithub()
       }
     },
