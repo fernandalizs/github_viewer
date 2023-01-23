@@ -1,18 +1,26 @@
 <template>
   <v-container>
-    <github-repos/>
+    <github-repos @repoSelected="onRepoSelected"/>
+    <github-issues :repo="repo"/>
   </v-container>
 </template>
 
 <script>
+  import GithubIssues from './GithubIssues.vue'
   import GithubRepos from './GithubRepos'
 
   export default {
   components: {
-    GithubRepos
+    GithubRepos,
+    GithubIssues
   },
-    data: () => ({
-    
-    }),
+  data: () => ({
+    repo: null
+  }),
+  methods: {
+    onRepoSelected(repo) {
+      this.repo = repo
+    }
+  }
   }
 </script>
