@@ -1,12 +1,28 @@
 <template>
   <v-container>
-    <v-autocomplete
-      v-model="user"
-      :items="userlist"
-      :loading="userloading"
-      :search-input.sync="usersearch"
-      item-text="login"
-    />
+    <v-row class="text-center">
+      <v-col cols="6">
+        <v-autocomplete
+          v-model="user"
+          label="Encontre seu usuário"
+          :items="userlist"
+          :loading="userloading"
+          :search-input.sync="usersearch"
+          item-text="login"
+        />
+      </v-col>
+      <v-col cols="6">
+        <v-select
+          v-model="repo"
+          :items="repolist"
+          :loading="repoloading"
+          item-text="name"
+          label="Selecione um repositório"
+          return-object
+          single-line
+        />
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -17,9 +33,12 @@
   export default {
     data: () => ({
       user: null,
+      repo: null,
       usersearch: null,
       userlist: [],
+      repolist: [],
       userloading: false,
+      repoloading: false
     }),
     methods: {
       procuraUsuariosGithub: debouncerDecorator(async function () {
@@ -28,10 +47,22 @@
         this.userlist = data.items
         this.userloading = false
       }, 500),
+      async listaRepositorios() {
+        this.repoloading = true
+        const data = await api.list_repos(this.user)
+        this.repolist = data
+        this.repoloading = false
+      }
     },
     watch: {
       usersearch() {
         this.procuraUsuariosGithub()
+      },
+      user() {
+        this.listaRepositorios()
+      },
+      repo() {
+        console.log(this.repo)
       }
     },
   }
