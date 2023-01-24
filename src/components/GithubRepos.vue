@@ -41,26 +41,26 @@
       repoloading: false
     }),
     methods: {
-      procuraUsuariosGithub: debouncerDecorator(async function () {
+      searchUsersGithub: debouncerDecorator(async function () {
         this.userloading = true
-        const data = await api.search_users(this.usersearch)
+        const data = await api.searchUsers(this.usersearch)
         this.userlist = data.items
         this.userloading = false
       }, 500),
-      async listaRepositorios() {
+      async listRepository() {
         this.repoloading = true
-        const data = await api.list_repos(this.user)
+        const data = await api.listRepos(this.user)
         this.repolist = data
         this.repoloading = false
       }
     },
     watch: {
       usersearch() {
-        this.procuraUsuariosGithub()
+        this.searchUsersGithub()
       },
       user() {
         if(this.user){
-          this.listaRepositorios()
+          this.listRepository()
         }
       },
       repo() {

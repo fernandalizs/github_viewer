@@ -6,8 +6,8 @@
           <template v-slot:default>
             <thead>
               <tr>
-                <th class="text-left">Number</th>
-                <th class="text-left">Title</th>
+                <th class="text-left">Número</th>
+                <th class="text-left">Título</th>
               </tr>
             </thead>
             <tbody>
@@ -23,7 +23,7 @@
     <v-row>
       <v-col cols="12">
         <v-progress-circular indeterminate color="primary" v-if="loading"></v-progress-circular>
-        <v-btn color="primary" v-if="hasMoreIssues" @click="listaIssues">MAIS</v-btn>
+        <v-btn color="primary" v-if="hasMoreIssues" @click="listIssues">MAIS</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -42,9 +42,9 @@ export default {
     currentPage: 1
   }),
   methods: {
-    async listaIssues(){
+    async listIssues(){
       this.loading = true
-      const moreIssues = await api.listaIssues(this.repo.owner.login, this.repo.name, this.currentPage)
+      const moreIssues = await api.listIssues(this.repo.owner.login, this.repo.name, this.currentPage)
       this.issues = this.issues.concat(moreIssues)
       this.currentPage++
       this.loading = false
@@ -57,7 +57,7 @@ export default {
       if (this.repo) {
         this.hasMoreIssues = false
         this.currentPage = 1
-        this.listaIssues()
+        this.listIssues()
       } else {
         this.issues = []
         this.hasMoreIssues = false
