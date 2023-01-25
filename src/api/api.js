@@ -30,5 +30,20 @@ export const api = {
     const url = `https://api.github.com/repos/${owner}/${name}/issues?page=${page}`
     const response = await fetch(url)
     return await response.json()
+  },
+  async listReposContent(owner, repo, path) {
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`
+    const response = await fetch(url)
+    return await response.json()
+  },
+  async listContent(owner, repo) {
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/`
+    const response = await fetch(url)
+    return await response.json()
+  },
+  async treeRepos(owner, repo, tree) {
+    const url = `https://api.github.com/repos/${owner}/${repo}/git/tree/${tree}`
+    const response = await fetch(url)
+    return await response.json()
   }
 }
