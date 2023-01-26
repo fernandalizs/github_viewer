@@ -6,7 +6,14 @@
           <template v-slot:default>
             <thead>
               <tr>
-                <th class="text-left">Documentos</th>
+                <v-banner v-if="!actualPath" class="text-left">
+                  <v-icon>mdi-folder-account</v-icon>
+                  {{repo.name}}
+                </v-banner>
+                <v-banner v-else>
+                  <v-icon>mdi-folder-account</v-icon>
+                  {{actualPath}}
+                </v-banner>
               </tr>
             </thead>
             <tbody>
@@ -54,6 +61,7 @@
       docs: [],
       // docsContent: [],
       currentPath: null,
+      actualPath: null,
       loading: false,
     }),
     methods: {
@@ -65,8 +73,11 @@
         this.loading = false;
       },
       async listReposContent(path) {
+        let gitPath = []
         this.loading = true
         const files = await api.listReposContent(this.repo.owner.login, this.repo.name, path)
+        gitPath.push(this.repo.name, path)
+        this.actualPath = gitPath.join('/')
         let newCurrentPathList = path.split("/");
         newCurrentPathList.pop();
         const newCurrentPath = newCurrentPathList.join("/");
@@ -82,6 +93,7 @@
         if (this.currentPath == "") {
           this.docs = [];
           this.listContent();
+          this.actualPath = ''
         } else {
           this.docs = [];
           this.listReposContent(this.currentPath);
