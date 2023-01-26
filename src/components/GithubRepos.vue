@@ -12,6 +12,8 @@
           :loading="userloading"
           :search-input.sync="usersearch"
           item-text="login"
+          color="deep-purple lighten-2"
+          prepend-inner-icon="mdi-account"
           solo
           clearable
         >
@@ -32,6 +34,8 @@
           :loading="repoloading"
           item-text="name"
           label="Selecione um repositório"
+          color="deep-purple lighten-2"
+          prepend-inner-icon="mdi-source-repository"
           return-object
           single-line
           solo
