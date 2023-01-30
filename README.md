@@ -5,3 +5,5 @@ Mini app em Vue.JS utilizando a API do GitHub para visualização de repositóri
 npm install
 npm run serve
 ```
+
+![GitHub Vuewer por Fernanda Liz](src/assets/github_vuewer.gif "GitHub Viewer")
